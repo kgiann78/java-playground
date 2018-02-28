@@ -19,7 +19,15 @@ public class TowerHopper {
     public static void main(String[] args) {
         int[] towers = {4, 2, 0, 0, 4, 0};
 
+        long start = System.nanoTime();
         System.out.println(hopperCanCrossArray(towers));
+        long stop = System.nanoTime();
+        System.out.println("Time consumption: " + (stop - start));
+
+        start = System.nanoTime();
+        System.out.println(hopperCanCrossArrayNextStepApproach(towers));
+        stop = System.nanoTime();
+        System.out.println("Time consumption: " + (stop - start));
     }
 
     private static boolean hopperCanCrossArray(int[] towers) {
@@ -32,10 +40,37 @@ public class TowerHopper {
         int currentHeight = towers[index];
         if (currentHeight == 0) return false;
 
-        for (int i=1; i <= currentHeight; i++) {
+        for (int i = 1; i <= currentHeight; i++) {
             if (hopperCanCrossArray(towers, index + i)) return true;
         }
 
         return false;
+    }
+
+    private static boolean hopperCanCrossArrayNextStepApproach(int[] towers) {
+        int index = 0;
+        int maxStep = 0;
+        do {
+            maxStep = nextStep(towers, index);
+            if (maxStep == 0 && index >= towers.length) return true;
+            else if (maxStep == 0) return false;
+            else index += maxStep;
+        } while (maxStep > 0);
+        return false;
+    }
+
+    private static int nextStep(int[] towers, int index) {
+        if (index >= towers.length) return 0;
+        if (towers[index] == 0) return 0;
+        int maxStep = 0;
+        int max = 0;
+        for (int i = 1; i <= towers[index]; i++) {
+            if (index + i >= towers.length) return i;
+            if (towers[index + i] > max) {
+                maxStep = i;
+            }
+        }
+
+        return maxStep;
     }
 }
