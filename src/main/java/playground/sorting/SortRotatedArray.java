@@ -6,27 +6,26 @@ package playground.sorting;
 public class SortRotatedArray {
     public static void main(String[] args) {
         int[] array = { 3, 4, 5, 6, 7, 1, 2 };
-
-        if (array == null || array.length <= 1) {
-            System.out.println("nothing to do here...");
-            return;
-        }
+        printArray(array);
 
         int start = 0;
-        int end = 0;
         int i = 1;
 
-        while (array[i] > array[start] && i < array.length) {
+        while (i < array.length && array[i] > array[start]) {
             i++;
         }
 
-        start = i;
-        end = i - 1;
+        int[] tmp = new int[i];
+        System.arraycopy(array, 0, tmp, 0, i);
+        System.arraycopy(array, i, array, 0, array.length - i);
+        System.arraycopy(tmp, 0, array, array.length - i, i);
+        printArray(array);
+    }
 
-        for (int j=0; j < array.length; j++) {
-
+    private static void printArray(int[] array) {
+        for (int i : array) {
+            System.out.print(i + " ");
         }
-
-        System.out.println(start + " " + end);
+        System.out.println("");
     }
 }
