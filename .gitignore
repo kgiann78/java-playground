@@ -1,4 +1,5 @@
-.idea
-target
+.idea/
+target/
+gen/
 *.iml
 .DS_Store
