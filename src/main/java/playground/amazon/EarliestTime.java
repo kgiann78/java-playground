@@ -1,17 +1,23 @@
 package playground.amazon;
 
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class EarliestTime {
-    public String getEarliestTime(int A, int B, int C, int D, int E, int F) {
+    private static Logger logger = Logger.getLogger(EarliestTime.class.getName());
 
-        int[] array = { A, B, C, D, E, F};
+    private String getEarliestTime(int a, int b, int c, int d, int e, int f) {
+
+        int[] array = { a, b, c, d, e, f};
         String errorMessage = "NOT PROPER TIME";
         int n = array.length;
 
         Arrays.sort(array);
-        printArray(array);
+        String result = Arrays.toString(array);
+        logger.log(Level.INFO, result);
 
+        // 00:00:00 - 23:59:59
         if (array[0] > 2) return errorMessage;
 
         //01:23:45
@@ -24,7 +30,8 @@ public class EarliestTime {
                     int tmp = array[i];
                     array[i] = array[j];
                     array[j] = tmp;
-                    printArray(array);
+                    result = Arrays.toString(array);
+                    logger.log(Level.INFO, result);
                 }
             }
         }
@@ -36,20 +43,13 @@ public class EarliestTime {
         return String.format("%d%d:%d%d:%d%d", array[0],array[1],array[2],array[3],array[4],array[5]);
     }
 
-    public void printArray(int[] array) {
-        for (int i=0; i < array.length; i++)
-            System.out.print(array[i] + " ");
-        System.out.println("");
-    }
-
     public static void main(String[] args) {
         EarliestTime earliestTime = new EarliestTime();
-
-        System.out.println(earliestTime.getEarliestTime(7, 2, 1, 4, 5, 6));
-        System.out.println(earliestTime.getEarliestTime(0, 0, 0, 0, 0, 0));
-        System.out.println(earliestTime.getEarliestTime(0, 0, 0, 7, 8, 9));
-        System.out.println(earliestTime.getEarliestTime(0, 0, 7, 7, 8, 9));
-        System.out.println(earliestTime.getEarliestTime(0, 0, 1, 7, 8, 9));
-        System.out.println(earliestTime.getEarliestTime(9, 8, 7, 1, 1, 1));
+        logger.log(Level.INFO, earliestTime.getEarliestTime(7, 2, 1, 4, 5, 6));
+        logger.log(Level.INFO, earliestTime.getEarliestTime(0, 0, 0, 0, 0, 0));
+        logger.log(Level.INFO, earliestTime.getEarliestTime(0, 0, 0, 7, 8, 9));
+        logger.log(Level.INFO, earliestTime.getEarliestTime(0, 0, 7, 7, 8, 9));
+        logger.log(Level.INFO, earliestTime.getEarliestTime(0, 0, 1, 7, 8, 9));
+        logger.log(Level.INFO, earliestTime.getEarliestTime(9, 8, 7, 1, 1, 1));
     }
 }

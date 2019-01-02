@@ -5,51 +5,63 @@ public class MergeSort {
     public static void main(String[] args) {
         int[] array = {1, 3, 7, 4, 2, 8, 10, 5, 9, 6};
         printArray(array);
-        mergesort(array);
+        mergesort(array, 0, array.length - 1);
         printArray(array);
     }
 
-    private static void mergesort(int[] array) {
-        // call mergesort method with actual limits of array (0 to length - 1)
-        mergesort(array, new int[array.length], 0, array.length - 1);
+    private static void mergesort(int[] array, int lo, int hi) {
+
+        if (lo < hi) {
+
+            // find median and call mergesort for the two halves
+            int m = (lo + hi) / 2;
+            mergesort(array, lo, m);
+            mergesort(array, m + 1, hi);
+
+            // then merge and sort the two halves
+            merge(array, lo, m, hi);
+        }
     }
 
-    // find median and call mergesort for two halves (start to median, median to end)
-    // in the end merge the two halves together
-    private static void mergesort(int[] array, int[] tmp, int start, int end) {
-        if (start >= end) return;
-        int middle = (start + end) / 2;
-        mergesort(array, tmp, start, middle);
-        mergesort(array, tmp, middle + 1, end);
-        mergeHalves(array, tmp, start, end);
-    }
+    private static void merge(int[] array, int lo, int m, int hi) {
+        int leftSize = m - lo + 1;
+        int rightSize = hi - m;
 
-    // Merging the two halves needs another temporal array to store the sorted
-    // elements and then copy the sorted slots back to the array
-    private static void mergeHalves(int[] array, int[] temp, int leftStart, int rightEnd) {
+        // Create two temp arrays to store the initial values of the array
+        int[] left = new int[leftSize];
+        int[] right = new int[rightSize];
 
-        int leftEnd = (leftStart + rightEnd) / 2;
-        int rightStart = leftEnd + 1;
-        int size = rightEnd - leftStart + 1;
+        // Copy values to tmp arrays
+        for (int i=0; i<leftSize; ++i)
+            left[i] = array[lo + i];
+        for (int j=0; j<rightSize; ++j)
+            right[j] = array[m + 1+ j];
 
-        int left = leftStart;
-        int right = rightStart;
-        int index = leftStart;
 
-        while (left <= leftEnd && right <= rightEnd) {
-            if (array[left] <= array[right]) {
-                temp[index] = array[left];
-                left++;
+        int i = 0;
+        int j = 0;
+        int k = lo;
+
+        // Start comparing and sorting elements to the array
+        while (i < leftSize && j < rightSize) {
+            if (left[i] <= right[j]) {
+                array[k] = left[i];
+                i++;
             } else {
-                temp[index] = array[right];
-                right++;
+                array[k] = right[j];
+                j++;
             }
-            index++;
+            k++;
         }
 
-        System.arraycopy(array, left, temp, index, leftEnd - left + 1);
-        System.arraycopy(array, right, temp, index, rightEnd - right + 1);
-        System.arraycopy(temp, leftStart, array, leftStart, size);
+        // copying rest elements to the array
+        while (i < leftSize) {
+            array[k++] = left[i++];
+        }
+
+        while (j < rightSize) {
+            array[k++] = right[j++];
+        }
     }
 
     private static void printArray(int[] array) {

@@ -12,33 +12,36 @@ public class Fibonacci {
         Fibonacci fibonacci = new Fibonacci();
         int f = 50;
 
-        new Thread(() -> {
-            long start = System.currentTimeMillis();
-            long fib = fibonacci.streams(f);
-            long stop = System.currentTimeMillis();
-            System.out.println("Streams ended in " + (stop - start) + " ms with value " + fib);
-        }).start();
+//        new Thread(() -> {
+//            long start = System.currentTimeMillis();
+//            long fib = fibonacci.streams(f);
+//            long stop = System.currentTimeMillis();
+//            System.out.println("Streams ended in " + (stop - start) + " ms with value " + fib);
+//        }).start();
+//
+//        new Thread(() -> {
+//            long start = System.currentTimeMillis();
+//            long fib = fibonacci.recursive(f);
+//            long stop = System.currentTimeMillis();
+//            System.out.println("Recursive ended in " + (stop - start) + " ms with value " + fib);
+//        }).start();
+//
+//        new Thread(() -> {
+//            long start = System.currentTimeMillis();
+//            long fib = fibonacci.iterative(f);
+//            long stop = System.currentTimeMillis();
+//            System.out.println("Iterative ended in " + (stop - start) + " ms with value " + fib);
+//        }).start();
+//
+//        new Thread(() -> {
+//            long start = System.currentTimeMillis();
+//            long fib = fibonacci.hashing(f);
+//            long stop = System.currentTimeMillis();
+//            System.out.println("Hashing ended in " + (stop - start) + " ms with value " + fib);
+//        }).start();
 
-        new Thread(() -> {
-            long start = System.currentTimeMillis();
-            long fib = fibonacci.recursive(f);
-            long stop = System.currentTimeMillis();
-            System.out.println("Recursive ended in " + (stop - start) + " ms with value " + fib);
-        }).start();
-
-        new Thread(() -> {
-            long start = System.currentTimeMillis();
-            long fib = fibonacci.iterative(f);
-            long stop = System.currentTimeMillis();
-            System.out.println("Iterative ended in " + (stop - start) + " ms with value " + fib);
-        }).start();
-
-        new Thread(() -> {
-            long start = System.currentTimeMillis();
-            long fib = fibonacci.hashing(f);
-            long stop = System.currentTimeMillis();
-            System.out.println("Hashing ended in " + (stop - start) + " ms with value " + fib);
-        }).start();
+        System.out.println(fibonacci.iterative(f));
+        System.out.println(fibonacci.iterative((long)f));
     }
 
     private long streams(int series) {
@@ -57,6 +60,7 @@ public class Fibonacci {
     }
 
     private long iterative(long n) {
+
         if (n < 0) return 0;
         if (n < 2) return n;
         long fibonacci = 0L;
@@ -72,6 +76,24 @@ public class Fibonacci {
         }
 
         return fibonacci;
+    }
+
+
+    private long iterative(int n) {
+
+        if (n == 1 || n == 0) return n;
+
+        long n1 = 0;
+        long n2 = 1;
+        long sum = 0;
+        for (int i=2; i <= n; i++) {
+            sum = (n1 + n2);
+            n1 = n2;
+            n2 = sum;
+
+//            System.out.print(sum + " ");
+        }
+        return sum;
     }
 
     private long hashing(long n) {
